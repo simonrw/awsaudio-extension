@@ -1,22 +1,32 @@
 from localstack.extensions.api import Extension, http, aws
 
+import math  # import needed modules
+import random
+import requests
+from concurrent.futures import ThreadPoolExecutor
+
 class MyExtension(Extension):
     name = "awsaudio"
 
-    def on_extension_load(self):
-        print("MyExtension: extension is loaded")
-
-    def on_platform_start(self):
-        print("MyExtension: localstack is starting")
-
-    def on_platform_ready(self):
-        print("MyExtension: localstack is running")
-
-    def update_gateway_routes(self, router: http.Router[http.RouteHandler]):
-        pass
+    def __init__(self):
+        self.hashed_notes = {}
+        self.pool = ThreadPoolExecutor()
 
     def update_request_handlers(self, handlers: aws.CompositeHandler):
-        pass
+        def inner(chain, ctx, response):
+            if not ctx.request:
+                return
+            if not ctx.service:
+                return
 
-    def update_response_handlers(self, handlers: aws.CompositeResponseHandler):
-        pass
+            # send in the background
+            # self.pool.submit(self.send_request, service=ctx.service.service_name)
+            self.send_request(ctx.service.service_name)
+
+
+        print("ADDING HANDLER")
+        handlers.append(inner)
+    
+    @staticmethod
+    def send_request(service: str):
+        requests.post("http://192.168.0.10:5000", json={"service": service})

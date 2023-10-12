@@ -22,6 +22,9 @@
           empty = pkgs.mkShell rec {
             buildInputs = with pkgs; [
               python3Packages.venvShellHook
+              python3Packages.pyaudio
+              python3Packages.flask
+              portaudio
             ];
 
             venvDir = ".venv";
