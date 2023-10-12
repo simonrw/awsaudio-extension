@@ -1,7 +1,11 @@
 AWSAudio
 ===============================
 
-All the boilerplate you need to create a LocalStack extension.
+Play music from your cloud infrastructure 🎼
+
+## Architecture
+
+Since audio in docker is complex, this repository runs a server on your local computer (`FLASK_APP=server python -m flask run -h 0.0.0.0`) listening for connections from your LocalStack instance. Change the IP address in `awsaudio/extension.py` from `192.168.0.10` to the IP address printed in your flask server output.
 
 ## Install local development version
 
@@ -30,5 +34,5 @@ EXTENSION_DEV_MODE=1 localstack start
 To distribute your extension, simply upload it to your github account. Your extension can then be installed via:
 
 ```bash
-localstack extensions install "git+https://github.com/janedoe/awsaudio/#egg=awsaudio"
+localstack extensions install "git+https://github.com/simonrw/awsaudio-extension/#egg=awsaudio"
 ```

@@ -81,6 +81,7 @@ app = Flask(__name__)
 
 hashed_notes = {}
 
+
 @app.route("/", methods=["POST"])
 def index():
     payload = request.get_json()
@@ -96,4 +97,3 @@ def index():
     note, octave = hashed_notes[service]
     playnote((note, octave), "bytwos")
     return "ok"
-

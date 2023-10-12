@@ -1,11 +1,10 @@
 from localstack.extensions.api import Extension, http, aws
 
-import math  # import needed modules
-import random
 import requests
 from concurrent.futures import ThreadPoolExecutor
 
-class MyExtension(Extension):
+
+class AWSAudio(Extension):
     name = "awsaudio"
 
     def __init__(self):
@@ -23,10 +22,9 @@ class MyExtension(Extension):
             # self.pool.submit(self.send_request, service=ctx.service.service_name)
             self.send_request(ctx.service.service_name)
 
-
         print("ADDING HANDLER")
         handlers.append(inner)
-    
+
     @staticmethod
     def send_request(service: str):
         requests.post("http://192.168.0.10:5000", json={"service": service})
